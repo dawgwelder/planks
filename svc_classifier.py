@@ -17,21 +17,27 @@ db = client.feat
 fs = gridfs.GridFS(db)
 fm = db.feats
 data_dict = dict.fromkeys(['type', 'features'])
-
+feat = []
 data = []
 
 for gridout in fm.find({}):
     plist = gridout['features']
 
-    for feats in plist:
-        if ('knot' or 'сучок' or 'tar') in gridout['label']:
-            data_dict['type'] = 'knot'
-            data_dict['features'] = np.asarray(feats)
-        else:
+    for feats in (plist):
+        if ('crack') in gridout['label'] or ('mechanical') in gridout['label'] or ('tar') in gridout['label']:
+        # if not ('mechanical') or ('crack') in gridout['label']: #('knot' or 'сучок' or 'tar')
+
             data_dict['type'] = gridout['label']
             data_dict['features'] = np.asarray(feats)
-        data.append(data_dict.copy())
+        else:
+            data_dict['type'] = 'knot'
+            data_dict['features'] = np.asarray(feats)
 
+        data.append(data_dict.copy())
+for item in data:
+    if item['type'] not in feat:
+        feat.append(item['type'])
+pprint (feat)
 length = len(data)
 length_train = int(length//(10/7)) #data for train is 70% of data
                                    #data for test is 30%
@@ -55,8 +61,8 @@ lin_clf.fit(X_train, y_train)
 print (lin_clf.score(X_test, y_test))
 result = lin_clf.predict(X_test)
 print (np.mean(result == y_test))
-for idx, item in enumerate(result):
-    pprint (item + ' | ' + y_test[idx])
+# for idx, item in enumerate(result):
+#     pprint (item + ' | ' + y_test[idx])
 
 
 

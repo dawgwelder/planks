@@ -45,7 +45,7 @@ for gridout in fm.find({"users_polygons.polygons.type": {"$exists": True}}):
             #pprint (data)
 
 for defect in data:
-    if defect['type'] == 'darken':
+    if defect['type'] == 'pith':
         try:
             with open('tmp.png', 'wb') as fi:
                 fi.write(fs.get( ObjectId(defect['image']) ).read() )
