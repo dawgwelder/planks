@@ -24,7 +24,7 @@ for gridout in fm.find({}):
     plist = gridout['features']
 
     for feats in plist:
-        if ('knot' or 'сучок' or 'darken') in gridout['label']:
+        if ('knot' or 'сучок' or 'tar') in gridout['label']:
             data_dict['type'] = 'knot'
             data_dict['features'] = np.asarray(feats)
         else:
